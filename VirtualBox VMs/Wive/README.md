@@ -92,6 +92,21 @@ sudo -E ./deploy-wive-proxmox.sh
 - Проверьте интерфейсы: `ip link` в консоли гостя.
 - Настройте сеть и веб-интерфейс в соответствии с документацией вашей сборки Wive/Wive-NG.
 
+## GitHub
+
+Скрипты развёртывания и этот README можно вести в отдельном репозитории у **[ez-flight](https://github.com/ez-flight)**.
+
+1. На GitHub создайте новый публичный (или приватный) репозиторий, например `wive-proxmox`.
+2. На машине с уже сделанным коммитом только этих двух файлов:
+
+```bash
+cd /path/to/repo   # корень git с README.md и deploy-wive-proxmox.sh
+git remote add origin https://github.com/ez-flight/wive-proxmox.git
+git push -u origin main
+```
+
+Подставьте фактическое имя репозитория вместо `wive-proxmox`. Аутентификация: [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) или SSH (`git@github.com:ez-flight/wive-proxmox.git`).
+
 ## Лицензия и прошивка
 
 Прошивка **Wive-NG / Wive-NG-HQ** и отдельные компоненты распространяются на условиях, указанных авторами и в составе архива. Для коммерческого использования и не-GPL компонентов уточняйте условия у правообладателей (см. сайт проекта и документацию к сборке). Использование образа из этого README должно соответствовать лицензии и выбранному источнику загрузки.
