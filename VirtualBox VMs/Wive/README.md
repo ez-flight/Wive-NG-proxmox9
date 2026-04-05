@@ -94,18 +94,16 @@ sudo -E ./deploy-wive-proxmox.sh
 
 ## GitHub
 
-Скрипты развёртывания и этот README можно вести в отдельном репозитории у **[ez-flight](https://github.com/ez-flight)**.
+Репозиторий с этим README и скриптом: **[ez-flight/Wive-NG-proxmox9](https://github.com/ez-flight/Wive-NG-proxmox9)**.
 
-1. На GitHub создайте новый публичный (или приватный) репозиторий, например `wive-proxmox`.
-2. На машине с уже сделанным коммитом только этих двух файлов:
+Клонирование:
 
 ```bash
-cd /path/to/repo   # корень git с README.md и deploy-wive-proxmox.sh
-git remote add origin https://github.com/ez-flight/wive-proxmox.git
-git push -u origin main
+git clone https://github.com/ez-flight/Wive-NG-proxmox9.git
+cd Wive-NG-proxmox9
 ```
 
-Подставьте фактическое имя репозитория вместо `wive-proxmox`. Аутентификация: [Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) или SSH (`git@github.com:ez-flight/wive-proxmox.git`).
+Отправка изменений (после настройки [доступа к GitHub](https://docs.github.com/en/authentication)): `git push origin main`.
 
 ## Лицензия и прошивка
 
