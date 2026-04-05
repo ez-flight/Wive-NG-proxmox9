@@ -4,7 +4,7 @@
 # Запуск: root на узле Proxmox.
 #
 # Переменные окружения (все необязательны):
-#   VMID             — ID виртуальной машины (по умолчанию: первый свободный от 123)
+#   VMID             — ID виртуальной машины (по умолчанию: следующий свободный в кластере, см. pvesh /cluster/nextid)
 #   STORAGE          — хранилище дисков (по умолчанию: local-lvm)
 #   BRIDGE_WAN       — мост для net0 (по умолчанию: vmbr1)
 #   BRIDGE_LAN       — мост для net1 (по умолчанию: vmbr2)
@@ -91,16 +91,24 @@ fi
 
 qemu-img info "${DISK_PATH}" >/dev/null 2>&1 || die "Файл ${DISK_PATH} не похож на образ диска."
 
-# VMID (свободный: qm config для несуществующей ВМ завершается с ошибкой)
+# VMID: по умолчанию — следующий свободный ID кластера (как в веб-интерфейсе Proxmox)
 if [[ -z "${VMID:-}" ]]; then
   VMID=""
-  for try in 123 124 125 126 127 128 129 130; do
-    if ! qm config "${try}" >/dev/null 2>&1; then
-      VMID="${try}"
-      break
-    fi
-  done
-  [[ -n "${VMID}" ]] || die "Укажите свободный VMID вручную: export VMID=..."
+  if command -v pvesh >/dev/null 2>&1; then
+    VMID="$(pvesh get /cluster/nextid 2>/dev/null | tr -d '\r\n\t ')"
+  fi
+  if [[ -z "${VMID}" ]] || ! [[ "${VMID}" =~ ^[0-9]+$ ]]; then
+    VMID=""
+    local_i=100
+    while [[ "${local_i}" -le 9999 ]]; do
+      if ! qm config "${local_i}" >/dev/null 2>&1; then
+        VMID="${local_i}"
+        break
+      fi
+      local_i=$((local_i + 1))
+    done
+  fi
+  [[ -n "${VMID}" ]] || die "Не удалось выбрать свободный VMID. Укажите вручную: export VMID=..."
 else
   qm config "${VMID}" >/dev/null 2>&1 && die "VMID ${VMID} уже занят. Задайте другой: export VMID=..."
 fi

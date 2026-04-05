@@ -43,7 +43,7 @@
 
 - **Proxmox VE** 7.x / 8.x с утилитами `qm`, `pvesm`, `tar`, `xz` (для `.tar.xz`), `curl` или `wget`.
 - Хранилище виртуальных дисков (например `local-lvm`).
-- Свободный **VMID**.
+- Свободный **VMID** (если не задан — скрипт берёт следующий свободный через API кластера, как при создании ВМ в веб-интерфейсе).
 - Достаточно места в thin pool / LVM под ~8 ГиБ.
 
 ## Важно (после миграции с VirtualBox)
@@ -67,7 +67,7 @@ sudo ./deploy-wive-proxmox.sh
 4. Параметры окружения:
 
 ```bash
-export VMID=123
+# export VMID=200   # по желанию; иначе подставится следующий свободный VMID кластера
 export STORAGE=local-lvm
 export BRIDGE_WAN=vmbr1
 export BRIDGE_LAN=vmbr2
